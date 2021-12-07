@@ -12,8 +12,6 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(length=40), nullable=False, unique=True)
     email = db.Column(db.String(length=50), nullable=False, unique=True)
     password = db.Column(db.String(length=60), nullable=False)
-    budget = db.Column(db.Integer(), nullable=False, default=1000)
-    items = db.relationship('Item', backref='owned_user', lazy=True)
 
 
     @property
@@ -30,13 +28,16 @@ class User(db.Model, UserMixin):
 
 
 
-class Item(db.Model):
-    __tablename__ = 'item'
+class Orders(db.Model):
+    __tablename__ = 'orders'
     id = db.Column(db.Integer(), primary_key=True)
+    date = db.Column(db.String(length=40), nullable=False, unique=True)
     name = db.Column(db.String(length=40), nullable=False, unique=True)
-    price = db.Column(db.Integer(), nullable=False)
-    description = db.Column(db.String(length=2000), nullable=False)
+    door_finish = db.Column(db.String(length=20), nullable=False)
+    door_glass = db.Column(db.String(length=20), nullable=False)
+    door_width = db.Column(db.String(length=20), nullable=False)
+    door_height = db.Column(db.String(length=20), nullable=False)
     owner = db.Column(db.Integer(), db.ForeignKey('user.id'))
 
     def __repr__(self):
-        return f'Item {self.name}'
+        return f'Orders {self.name}'
