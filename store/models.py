@@ -1,6 +1,7 @@
 from store import db, login_manager
 from store import bcrypt
 from flask_login import UserMixin
+from datetime import datetime
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -31,8 +32,7 @@ class User(db.Model, UserMixin):
 class Orders(db.Model):
     __tablename__ = 'orders'
     id = db.Column(db.Integer(), primary_key=True)
-    date = db.Column(db.String(length=40), nullable=False, unique=True)
-    name = db.Column(db.String(length=40), nullable=False, unique=True)
+    date = db.Column(db.DateTime, default=datetime.utcnow)
     door_finish = db.Column(db.String(length=20), nullable=False)
     door_glass = db.Column(db.String(length=20), nullable=False)
     door_width = db.Column(db.String(length=20), nullable=False)

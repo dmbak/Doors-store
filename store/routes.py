@@ -19,15 +19,16 @@ def product_page():
 
 @app.route('/processOrderInfo', methods=['GET', 'POST'])
 def processOrderInfo():
-    # orderInfo = request.get_json()
-    # door_finish = orderInfo['door_finish']
-    # glass = orderInfo['glass']
-    door_finish = request.json['door_finish']
-    glass = request.json['glass']
+    if request.method == "POST":
+        try:
+            new_entry = Orders(door_finish = request.json['door_finish'], door_glass  = request.json['glass'], door_width = request.json['door_width'], door_height  = request.json['door_height'], owner = "trtre")
+            db.session.add(new_entry)
+            db.session.commit()
+        except:
+            db.session.rollback()
+            print("An error")
 
-    return '''
-           The Door Finish value is: {}
-           The Glass value is: {}'''.format(door_finish, glass)
+    return redirect(url_for("home_page"))
 
 
 @app.route('/contact')
