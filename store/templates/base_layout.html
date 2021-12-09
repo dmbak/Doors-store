@@ -76,14 +76,18 @@
           {% if current_user.is_authenticated %}
 
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Welcome, {{ current_user.username }}</a></li>
+            <li>
+              <a href="{{ url_for('account') }}"
+                >Welcome, {{ current_user.username }}</a
+              >
+            </li>
             <li>
               <a href="{{ url_for('logout_page') }}"
                 ><span class="glyphicon glyphicon-user"></span>Logout</a
               >
             </li>
             <li>
-              <a href="#"
+              <a href="{{ url_for('cart') }}"
                 ><span class="glyphicon glyphicon-shopping-cart"></span> Cart</a
               >
             </li>

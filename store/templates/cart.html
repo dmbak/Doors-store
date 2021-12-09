@@ -1,0 +1,29 @@
+{% extends 'base_layout.html' %} {% block title %} Home page {% endblock %} {%
+block main_header %} Cart {% endblock %} {% block orders %}
+
+<table id="data" class="table table-striped">
+  <thead>
+    <tr>
+      <th>Order Id</th>
+      <th>Date</th>
+      <th>Door Finish</th>
+      <th>Glass</th>
+      <th>Door Width</th>
+      <th>Door Height</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for row in rows %}
+    <tr>
+      <td>{{ row.id }}</td>
+      <td>{{ row.date }}</td>
+      <td>{{ row.door_finish }}</td>
+      <td>{{ row.door_glass }}</td>
+      <td>{{ row.door_width }}</td>
+      <td>{{ row.door_height }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}

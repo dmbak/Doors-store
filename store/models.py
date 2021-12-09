@@ -37,7 +37,7 @@ class Orders(db.Model):
     door_glass = db.Column(db.String(length=20), nullable=False)
     door_width = db.Column(db.String(length=20), nullable=False)
     door_height = db.Column(db.String(length=20), nullable=False)
-    owner = db.Column(db.Integer(), db.ForeignKey('user.id'))
+    user_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
 
     def __repr__(self):
         return f'Orders {self.name}'

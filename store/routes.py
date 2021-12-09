@@ -5,45 +5,13 @@ from store.forms import RegisterForm, LoginForm
 from store import db
 from flask_login import login_user, logout_user
 from flask import json
-from flask import jsonify, make_response, request
+from flask import jsonify, make_response, request, session
+from flask_session import Session
 
 @app.route('/')
 @app.route('/index')
 def home_page():
     return render_template('index.html')
-
-@app.route('/products', methods=['GET', 'POST'])
-def product_page():
-    if request.method == "POST":
-        try:
-            new_entry = Orders(door_finish = request.json['door_finish'], door_glass  = request.json['glass'], door_width = request.json['door_width'], door_height  = request.json['door_height'], owner = "trtre")
-            db.session.add(new_entry)
-            db.session.commit()
-        except:
-            db.session.rollback()
-            print("An error")
-        
-        return redirect(url_for("home_page")) 
-
-    return render_template('products.html')
-
-# @app.route('/processOrderInfo', methods=['GET', 'POST'])
-# def processOrderInfo():
-#     if request.method == "POST":
-#         try:
-#             new_entry = Orders(door_finish = request.json['door_finish'], door_glass  = request.json['glass'], door_width = request.json['door_width'], door_height  = request.json['door_height'], owner = "trtre")
-#             db.session.add(new_entry)
-#             db.session.commit()
-#         except:
-#             db.session.rollback()
-#             print("An error")
-
-#     return redirect(url_for("home_page"))
-
-
-@app.route('/contact')
-def contact_page():
-    return render_template('contact.html')
 
 @app.route('/register', methods=['GET', 'POST'])
 def register_page():
@@ -54,7 +22,7 @@ def register_page():
                          password_hash=form.password1.data)
         db.session.add(user_to_create)
         db.session.commit()
-        return redirect(url_for('product_page'))
+        return redirect(url_for('account'))
     if form.errors != {}:
         for err_msg in form.errors.values():
             flash(f'There was an error: {err_msg}', category='danger')
@@ -73,6 +41,8 @@ def login_page():
         attempted_user = User.query.filter_by(username=form.username.data).first()
         if attempted_user and attempted_user.check_password_correction(attempted_password=form.password.data):
             login_user(attempted_user)
+            session["user_id"] = attempted_user.id 
+            print(session["user_id"])
             flash(f'Success! You are logged in as: {attempted_user.username}', category='success')
             return redirect(url_for('product_page'))
         else:
@@ -87,3 +57,36 @@ def logout_page():
     flash("You have been logged out!", category='info')
 
     return redirect(url_for("home_page"))
+
+@app.route('/account')
+def account():
+    pass
+
+    return render_template('account.html')
+
+@app.route('/cart')
+def cart():
+    pass
+
+    return render_template('cart.html')
+
+@app.route('/products', methods=['GET', 'POST'])
+def product_page():
+    if request.method == "POST":
+        try:
+            new_entry = Orders(door_finish = request.json['door_finish'], door_glass  = request.json['glass'], door_width = request.json['door_width'], door_height  = request.json['door_height'], user_id = session["user_id"])
+            db.session.add(new_entry)
+            db.session.commit()
+        except:
+            db.session.rollback()
+            print("An error")
+        
+        return redirect(url_for("cart")) 
+
+    return render_template('products.html')
+
+
+
+@app.route('/contact')
+def contact_page():
+    return render_template('contact.html')
