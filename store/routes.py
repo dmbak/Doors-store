@@ -42,7 +42,6 @@ def login_page():
         if attempted_user and attempted_user.check_password_correction(attempted_password=form.password.data):
             login_user(attempted_user)
             session["user_id"] = attempted_user.id 
-            print(session["user_id"])
             flash(f'Success! You are logged in as: {attempted_user.username}', category='success')
             return redirect(url_for('product_page'))
         else:
@@ -77,12 +76,11 @@ def product_page():
             new_entry = Orders(door_finish = request.json['door_finish'], door_glass  = request.json['glass'], door_width = request.json['door_width'], door_height  = request.json['door_height'], user_id = session["user_id"])
             db.session.add(new_entry)
             db.session.commit()
+            return redirect(url_for("cart")) 
         except:
             db.session.rollback()
             print("An error")
         
-        return redirect(url_for("cart")) 
-
     return render_template('products.html')
 
 
