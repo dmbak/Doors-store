@@ -12,13 +12,8 @@ from flask import jsonify, make_response, request
 def home_page():
     return render_template('index.html')
 
-@app.route('/products')
+@app.route('/products', methods=['GET', 'POST'])
 def product_page():
-   
-    return render_template('products.html')
-
-@app.route('/processOrderInfo', methods=['GET', 'POST'])
-def processOrderInfo():
     if request.method == "POST":
         try:
             new_entry = Orders(door_finish = request.json['door_finish'], door_glass  = request.json['glass'], door_width = request.json['door_width'], door_height  = request.json['door_height'], owner = "trtre")
@@ -27,8 +22,23 @@ def processOrderInfo():
         except:
             db.session.rollback()
             print("An error")
+        
+        return redirect(url_for("home_page")) 
 
-    return redirect(url_for("home_page"))
+    return render_template('products.html')
+
+# @app.route('/processOrderInfo', methods=['GET', 'POST'])
+# def processOrderInfo():
+#     if request.method == "POST":
+#         try:
+#             new_entry = Orders(door_finish = request.json['door_finish'], door_glass  = request.json['glass'], door_width = request.json['door_width'], door_height  = request.json['door_height'], owner = "trtre")
+#             db.session.add(new_entry)
+#             db.session.commit()
+#         except:
+#             db.session.rollback()
+#             print("An error")
+
+#     return redirect(url_for("home_page"))
 
 
 @app.route('/contact')

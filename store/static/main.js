@@ -105,7 +105,7 @@ document
 
 function sendOrderInfo() {
   let req = new XMLHttpRequest();
-  req.open("POST", "/processOrderInfo");
+  req.open("POST", "/products");
   req.setRequestHeader("Content-Type", "application/json");
   req.onload = () => {
     console.log(req.response);
