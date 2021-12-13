@@ -4,7 +4,7 @@ from flask import render_template, redirect, url_for, flash, get_flashed_message
 from store.models import Orders, User
 from store.forms import RegisterForm, LoginForm
 from store import db
-from flask_login import login_user, logout_user
+from flask_login import login_user, logout_user, login_required
 from flask import json
 from flask import jsonify, make_response, request, session
 from flask_session import Session
@@ -40,11 +40,18 @@ def login_page():
     form = LoginForm()
     if form.validate_on_submit():
         attempted_user = User.query.filter_by(username=form.username.data).first()
-        if attempted_user and attempted_user.check_password_correction(attempted_password=form.password.data):
+        if attempted_user.id != 1 and attempted_user.check_password_correction(attempted_password=form.password.data):
             login_user(attempted_user)
             session["user_id"] = attempted_user.id 
             flash(f'Success! You are logged in as: {attempted_user.username}', category='success')
             return redirect(url_for('account'))
+
+        elif attempted_user.id == 1:
+            login_user(attempted_user)
+            session["user_id"] = attempted_user.id 
+            flash(f'Success! You are logged in as: {attempted_user.username}', category='success')
+            return redirect(url_for('admin'))
+
         else:
             flash('Wrong usermane or password', category='danger')
 
@@ -61,10 +68,17 @@ def logout_page():
 @app.route('/account')
 @login_required
 def account():
-    pass
+    if session["user_id"] != 1:
+        rows = Orders.query.filter_by(user_id=session["user_id"])
+        return render_template('account.html', rows = rows)
+    else:
+        return redirect(url_for("admin"))
 
-    return render_template('account.html')
-
+@app.route('/admin')
+@login_required
+def admin():
+    rows = Orders.query.all()
+    return render_template('admin.html', rows = rows)
 
 @app.route('/products', methods=['GET', 'POST'])
 @login_required
@@ -74,14 +88,10 @@ def product_page():
             new_entry = Orders(door_finish = request.json['door_finish'], door_glass  = request.json['glass'], door_width = request.json['door_width'], door_height  = request.json['door_height'], user_id = session["user_id"])
             db.session.add(new_entry)
             db.session.commit()
-            # flash(f"Thanks for your request! We'll reply to you shortly.", category='success')
-            # return redirect(url_for("account")) 
 
         except:
             db.session.rollback()
             print("An error")
-        
-
     
     return render_template('products.html')
 
