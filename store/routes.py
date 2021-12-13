@@ -44,7 +44,7 @@ def login_page():
             login_user(attempted_user)
             session["user_id"] = attempted_user.id 
             flash(f'Success! You are logged in as: {attempted_user.username}', category='success')
-            return redirect(url_for('account'))
+            return redirect(request.args.get("next")) or redirect(url_for('account'))
 
         elif attempted_user.id == 1:
             login_user(attempted_user)
