@@ -86,11 +86,6 @@
                 ><span class="glyphicon glyphicon-user"></span>Logout</a
               >
             </li>
-            <li>
-              <a href="{{ url_for('cart') }}"
-                ><span class="glyphicon glyphicon-shopping-cart"></span> Cart</a
-              >
-            </li>
           </ul>
 
           {% else %}
@@ -102,11 +97,6 @@
               >
             </li>
             <li><a href="{{ url_for('register_page') }}">Register</a></li>
-            <li>
-              <a href="#"
-                ><span class="glyphicon glyphicon-shopping-cart"></span> Cart</a
-              >
-            </li>
           </ul>
 
           {% endif %}

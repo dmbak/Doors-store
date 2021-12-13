@@ -109,6 +109,11 @@ function sendOrderInfo() {
   req.setRequestHeader("Content-Type", "application/json");
   req.onload = () => {
     console.log(req.response);
+    window.location = "/account";
   };
   req.send(JSON.stringify(orderInfo));
 }
+
+// document
+//   .getElementById("submit_button")
+//   .addEventListener("click", (window.location = "/account"));

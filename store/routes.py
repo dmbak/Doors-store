@@ -1,3 +1,4 @@
+from flask_login.utils import login_required
 from store import app
 from flask import render_template, redirect, url_for, flash, get_flashed_messages
 from store.models import Orders, User
@@ -43,7 +44,7 @@ def login_page():
             login_user(attempted_user)
             session["user_id"] = attempted_user.id 
             flash(f'Success! You are logged in as: {attempted_user.username}', category='success')
-            return redirect(url_for('product_page'))
+            return redirect(url_for('account'))
         else:
             flash('Wrong usermane or password', category='danger')
 
@@ -58,29 +59,30 @@ def logout_page():
     return redirect(url_for("home_page"))
 
 @app.route('/account')
+@login_required
 def account():
     pass
 
     return render_template('account.html')
 
-@app.route('/cart')
-def cart():
-    pass
-
-    return render_template('cart.html')
 
 @app.route('/products', methods=['GET', 'POST'])
+@login_required
 def product_page():
     if request.method == "POST":
         try:
             new_entry = Orders(door_finish = request.json['door_finish'], door_glass  = request.json['glass'], door_width = request.json['door_width'], door_height  = request.json['door_height'], user_id = session["user_id"])
             db.session.add(new_entry)
             db.session.commit()
-            return redirect(url_for("cart")) 
+            # flash(f"Thanks for your request! We'll reply to you shortly.", category='success')
+            # return redirect(url_for("account")) 
+
         except:
             db.session.rollback()
             print("An error")
         
+
+    
     return render_template('products.html')
 
 
