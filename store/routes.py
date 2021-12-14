@@ -44,7 +44,7 @@ def login_page():
             login_user(attempted_user)
             session["user_id"] = attempted_user.id 
             flash(f'Success! You are logged in as: {attempted_user.username}', category='success')
-            return redirect(url_for('account')) or redirect(request.args.get("next"))
+            return redirect(request.args.get("next")) or redirect(url_for('account'))
 
         elif attempted_user.id == 1:
             login_user(attempted_user)
@@ -68,11 +68,9 @@ def logout_page():
 @app.route('/account')
 @login_required
 def account():
-    if session["user_id"] != 1:
-        rows = Orders.query.filter_by(user_id=session["user_id"])
-        return render_template('account.html', rows = rows)
-    else:
-        return redirect(url_for("admin"))
+    rows = Orders.query.filter_by(user_id=session["user_id"])
+    return render_template('account.html', rows = rows)
+
 
 @app.route('/admin')
 @login_required
