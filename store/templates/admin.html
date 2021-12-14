@@ -1,5 +1,26 @@
 {% extends 'base_layout.html' %} {% block title %} Account Info {% endblock %}
 {% block main_header %} Account Info {% endblock %} {% block content %}
+
+<h2>User List</h2>
+
+<table id="data" class="table table-striped">
+  <thead>
+    <tr>
+      <th>User Id</th>
+      <th>Email</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for user in users %}
+    <tr>
+      <td>{{ user.username }}</td>
+      <td>{{ user.email }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+
 <h2>Orders List</h2>
 
 <table id="data" class="table table-striped">

@@ -44,11 +44,11 @@ def login_page():
             login_user(attempted_user)
             session["user_id"] = attempted_user.id 
             flash(f'Success! You are logged in as: {attempted_user.username}', category='success')
-            return redirect(request.args.get("next")) or redirect(url_for('account'))
+            return redirect(url_for('account')) or redirect(request.args.get("next"))
 
         elif attempted_user.id == 1:
             login_user(attempted_user)
-            session["user_id"] = attempted_user.id 
+            session["user_id"] = attempted_user.id
             flash(f'Success! You are logged in as: {attempted_user.username}', category='success')
             return redirect(url_for('admin'))
 
@@ -77,8 +77,9 @@ def account():
 @app.route('/admin')
 @login_required
 def admin():
+    users = User.query.all()
     rows = Orders.query.all()
-    return render_template('admin.html', rows = rows)
+    return render_template('admin.html', rows = rows, users = users)
 
 @app.route('/products', methods=['GET', 'POST'])
 @login_required
@@ -95,8 +96,3 @@ def product_page():
     
     return render_template('products.html')
 
-
-
-@app.route('/contact')
-def contact_page():
-    return render_template('contact.html')

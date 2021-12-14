@@ -3,6 +3,7 @@ from store import bcrypt
 from flask_login import UserMixin
 from datetime import datetime
 
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
@@ -41,3 +42,6 @@ class Orders(db.Model):
 
     def __repr__(self):
         return f'Orders {self.name}'
+
+
+

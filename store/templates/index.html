@@ -1,16 +1,11 @@
-{% extends 'base_layout.html' %}
+{% extends 'base_layout.html' %} 
+{% block title %} Online Doors Store {% endblock %} 
 
-{% block title %}
-Home page
-{% endblock %}
+{% block main_header %} Online Doors Store {% endblock %} 
 
-{% block main_header %}
-Online Store
-{% endblock %}
-
-{% block content %}
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-uis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+{% block content %} 
+This application is a prototype of a door configurator. 
+How it works? The user registers, selects the door configuration they like, after pressing the "submit" button, an order is formed. 
+The finished order is saved in the user account and at the same time is sent to the admin for processing/cost estimate. 
+Subsequently, the admin can calculate the cost of the configuration and contact the user.
 {% endblock %}

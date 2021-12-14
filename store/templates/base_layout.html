@@ -37,7 +37,7 @@
       /* Add a gray background color and some padding to the footer */
       footer {
         background-color: #f2f2f2;
-        padding: 25px;
+        padding: 40px;
       }
     </style>
   </head>
@@ -70,8 +70,7 @@
             <li class="active">
               <a href="{{ url_for('home_page') }}">Home</a>
             </li>
-            <li><a href="{{ url_for('product_page') }}">Products</a></li>
-            <li><a href="{{ url_for('contact_page') }}">Contact</a></li>
+            <li><a href="{{ url_for('product_page') }}">Configurator</a></li>
           </ul>
           {% if current_user.is_authenticated %}
 
@@ -125,17 +124,7 @@
     <br /><br />
 
     <footer class="container-fluid text-center">
-      <form class="form-inline">
-        Get deals:
-        <input
-          type="email"
-          class="form-control"
-          size="50"
-          placeholder="Email Address"
-        />
-        <button type="button" class="btn btn-info">Sign Up</button>
-      </form>
-      <p>Online Store Copyright</p>
+      <p>Online Doors Store Copyright</p>
     </footer>
     <script src="{{ url_for('static',filename='main.js') }}"></script>
   </body>
