@@ -114,6 +114,3 @@ function sendOrderInfo() {
   req.send(JSON.stringify(orderInfo));
 }
 
-// document
-//   .getElementById("submit_button")
-//   .addEventListener("click", (window.location = "/account"));
