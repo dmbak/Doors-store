@@ -107,8 +107,8 @@ Contains a folder with CSS styles, images, and a main.js file that should be des
 
 This project uses pure JavaScript. First, the orderInfo class is created with default values. Next, the "Сanvas" is set. I decided to use it, because the project needed to implement the overlay of some images.
 
-Next, i use DOM manipulation and event handling (addEventListener ("change") to change images. To do this, in the products.html file, I set the data-img attribute for each image.
+Next, i use DOM manipulation and event handling (addEventListener ("change") to change images. To do this, in the "products.html" file, I set the data-img attribute for each image.
 
-To transfer data to the backend, it was decided to use JSON.
+To transfer data to the back-end, it was decided to use JSON.
 
 Function sendOrderInfo() creates and sends a POST request. Then it received by the product_page() function on the "/products" page (see the routes.py file).
